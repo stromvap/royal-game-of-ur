@@ -6,28 +6,28 @@ A very simple implementation of the Royal Game of Ur (https://en.wikipedia.org/w
 
 `mvn clean package && java -jar target/royal-game-of-ur-0.0.1-SNAPSHOT.jar`
 
-To start a new game:
+To start a new game:</br>
 `GET http://localhost:8080/new-game`
 
-To get the game-state:
+To get the game-state:</br>
 `GET http://localhost:8080/game`
 
-To get the board-state:
+To get the board-state:</br>
 `GET http://localhost:8080/board`
 
-To roll the 'dice':
+To roll the 'dice':</br>
 `GET http://localhost:8080/roll`
 
-To roll the 'dice':
+To roll the 'dice':</br>
 `GET http://localhost:8080/roll`
 
-To move a specific game piece:
+To move a specific game piece:</br>
 `POST http://localhost:8080/move/{gamePieceId}`
 
-To move a random game piece:
+To move a random game piece:</br>
 `GET http://localhost:8080/move`
 
-To make the game play itself out by rolling and moving random game pieces until one player has won:
+To make the game play itself out by rolling and moving random game pieces until one player has won:</br>
 `GET http://localhost:8080/play`
 
 ## TODO
