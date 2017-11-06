@@ -18,9 +18,6 @@ To get the board-state:</br>
 To roll the 'dice':</br>
 `GET http://localhost:8080/roll`
 
-To roll the 'dice':</br>
-`GET http://localhost:8080/roll`
-
 To move a specific game piece:</br>
 `POST http://localhost:8080/move/{gamePieceId}`
 
