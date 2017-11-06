@@ -31,5 +31,5 @@ To make the game play itself out by rolling and moving random game pieces until 
 `GET http://localhost:8080/play`
 
 ## TODO
-TODO: Make someone look at the code and improve it!
+TODO: Make someone look at the code and improve it!</br>
 TODO: Make it so you can write AIs and make em battle each other!
