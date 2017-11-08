@@ -1,24 +1,22 @@
-package se.stromvap.royal.game.of.ur;
+package se.stromvap.royal.game.of.ur.model;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.Serializable;
+import java.util.Random;
 
-public class Game {
-    private static final Logger log = LoggerFactory.getLogger(Game.class);
-
+public class Game implements Serializable {
     private Player player1;
     private Player player2;
     private Board board;
     private Status status;
 
-    public Game() {
-        player1 = new Player("Player 1");
-        player2 = new Player("Player 2");
+    public Game(Player player1, Player player2) {
+        this.player1 = player1;
+        this.player2 = player2;
 
         board = new Board(player1, player2);
 
         status = new Status();
-        status.setCurrentTurnPlayer(player1);
+        status.setCurrentTurnPlayer(new Random().nextBoolean() ? player1 : player2);
     }
 
     public Player getPlayer1() {

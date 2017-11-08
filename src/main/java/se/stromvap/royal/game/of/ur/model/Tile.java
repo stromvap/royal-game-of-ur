@@ -1,6 +1,8 @@
-package se.stromvap.royal.game.of.ur;
+package se.stromvap.royal.game.of.ur.model;
 
-public class Tile {
+import java.io.Serializable;
+
+public class Tile implements Serializable {
     private TileType tileType;
     private GamePiece gamePiece;
 

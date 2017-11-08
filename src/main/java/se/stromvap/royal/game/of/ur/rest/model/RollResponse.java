@@ -1,6 +1,6 @@
 package se.stromvap.royal.game.of.ur.rest.model;
 
-import se.stromvap.royal.game.of.ur.GamePiece;
+import se.stromvap.royal.game.of.ur.model.GamePiece;
 
 import java.util.List;
 

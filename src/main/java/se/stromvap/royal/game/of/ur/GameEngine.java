@@ -2,6 +2,13 @@ package se.stromvap.royal.game.of.ur;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import se.stromvap.royal.game.of.ur.model.EndTile;
+import se.stromvap.royal.game.of.ur.model.FlowerTile;
+import se.stromvap.royal.game.of.ur.model.Game;
+import se.stromvap.royal.game.of.ur.model.GamePiece;
+import se.stromvap.royal.game.of.ur.model.Player;
+import se.stromvap.royal.game.of.ur.model.Status;
+import se.stromvap.royal.game.of.ur.model.Tile;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +20,13 @@ public class GameEngine {
     private Game game;
 
     public Game newGame() {
-        game = new Game();
+        return newGame(new Player("Player 1"), new Player("Player 2"));
+    }
+
+    public Game newGame(Player player1, Player player2) {
+        player1.givePlayerPieces();
+        player2.givePlayerPieces();
+        game = new Game(player1, player2);
         return game;
     }
 
@@ -66,8 +79,8 @@ public class GameEngine {
             throw new IllegalStateException("Player has already moved, can't move again");
         }
 
-        if (!canMove(gamePiece)) {
-            throw new IllegalStateException("Can't move that game piece");
+        if (!GameUtil.canMove(game, gamePiece)) {
+            throw new IllegalStateException("Can't move game piece " + gamePiece.getId());
         }
 
         int latestRoll = game.getStatus().getLatestRoll();
@@ -97,32 +110,6 @@ public class GameEngine {
         moveToTile(gamePiece, newTile);
     }
 
-    public boolean canMove(GamePiece gamePiece) {
-        List<Tile> tiles = game.getBoard().getTiles().get(game.getStatus().getCurrentTurnPlayer());
-        for (int i = 0; i < tiles.size(); i++) {
-            Tile tile = tiles.get(i);
-
-            if (gamePiece == tile.getGamePiece()) {
-                // We found the game piece on the board!
-
-                // Check if the game piece will be moved out of bounds
-                if (i + game.getStatus().getLatestRoll() >= tiles.size()) {
-                    return false;
-                }
-
-                // Get the new tile
-                Tile newTile = tiles.get(i + game.getStatus().getLatestRoll());
-
-                // Check if we can move to the new tile
-                return canMoveTo(newTile);
-            }
-        }
-
-        // If we get to here, the game piece we are checking to move is not on the board
-        Tile newTile = tiles.get(game.getStatus().getLatestRoll() - 1);
-        return canMoveTo(newTile);
-    }
-
     public Player isAnyPlayerAWinner() {
         if (game.getPlayer1().getGamePieces().isEmpty()) {
             log.info("{} won!", game.getPlayer1().getName());
@@ -143,26 +130,12 @@ public class GameEngine {
         }
 
         for (GamePiece gamePiece : game.getStatus().getCurrentTurnPlayer().getGamePieces()) {
-            if (canMove(gamePiece)) {
+            if (GameUtil.canMove(game, gamePiece)) {
                 return true;
             }
         }
 
         return false;
-    }
-
-    private boolean canMoveTo(Tile newTile) {
-        if (newTile.getGamePiece() != null && newTile.getGamePiece().getPlayer() == game.getStatus().getCurrentTurnPlayer()) {
-            // Can't move to a tile you already have a game piece at
-            return false;
-        }
-
-        if (newTile instanceof FlowerTile && newTile.getGamePiece() != null && newTile.getGamePiece().getPlayer() != game.getStatus().getCurrentTurnPlayer()) {
-            // Can't move to a flower tile with an opponents game piece
-            return false;
-        }
-
-        return true;
     }
 
     private void moveToTile(GamePiece gamePiece, Tile newTile) {

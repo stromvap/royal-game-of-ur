@@ -1,6 +1,8 @@
-package se.stromvap.royal.game.of.ur;
+package se.stromvap.royal.game.of.ur.model;
 
-public class Status {
+import java.io.Serializable;
+
+public class Status implements Serializable {
     private Player currentTurnPlayer;
     private int latestRoll;
     private boolean hasMoved = true;

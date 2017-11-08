@@ -1,11 +1,12 @@
-package se.stromvap.royal.game.of.ur;
+package se.stromvap.royal.game.of.ur.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Board {
+public class Board implements Serializable {
     private Map<Player, List<Tile>> tiles;
 
     public Board(Player player1, Player player2) {

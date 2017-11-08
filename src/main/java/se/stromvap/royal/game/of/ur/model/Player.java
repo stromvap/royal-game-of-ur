@@ -1,19 +1,20 @@
-package se.stromvap.royal.game.of.ur;
+package se.stromvap.royal.game.of.ur.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
+public class Player implements Serializable {
     private String name;
 
     private List<GamePiece> gamePieces = new ArrayList<>();
 
-    public Player() {
-    }
-
     public Player(String name) {
         this.name = name;
+    }
 
+    public void givePlayerPieces() {
+        gamePieces.clear();
         for (int i = 1; i <= 7; i++) {
             gamePieces.add(new GamePiece(i, this));
         }

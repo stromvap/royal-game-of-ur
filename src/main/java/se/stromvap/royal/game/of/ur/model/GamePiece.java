@@ -1,8 +1,10 @@
-package se.stromvap.royal.game.of.ur;
+package se.stromvap.royal.game.of.ur.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class GamePiece {
+import java.io.Serializable;
+
+public class GamePiece implements Serializable {
     private int id;
     private Player player;
 

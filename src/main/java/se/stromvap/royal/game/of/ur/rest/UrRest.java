@@ -1,16 +1,15 @@
 package se.stromvap.royal.game.of.ur.rest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import se.stromvap.royal.game.of.ur.Board;
-import se.stromvap.royal.game.of.ur.Game;
 import se.stromvap.royal.game.of.ur.GameEngine;
-import se.stromvap.royal.game.of.ur.GamePiece;
-import se.stromvap.royal.game.of.ur.Player;
+import se.stromvap.royal.game.of.ur.GameUtil;
+import se.stromvap.royal.game.of.ur.model.Board;
+import se.stromvap.royal.game.of.ur.model.Game;
+import se.stromvap.royal.game.of.ur.model.GamePiece;
+import se.stromvap.royal.game.of.ur.model.Player;
 import se.stromvap.royal.game.of.ur.rest.model.MoveResponse;
 import se.stromvap.royal.game.of.ur.rest.model.RollResponse;
 
@@ -18,8 +17,6 @@ import java.util.stream.Collectors;
 
 @RestController
 public class UrRest {
-    private static final Logger log = LoggerFactory.getLogger(UrRest.class);
-
     private static GameEngine gameEngine = new GameEngine();
 
     @RequestMapping("/new-game")
@@ -46,7 +43,7 @@ public class UrRest {
         rollResponse.setPlayer(gameEngine.getCurrentTurnPlayer().getName());
 
         if (!gameEngine.getStatus().hasMoved()) {
-            rollResponse.setMovableGamePieces(gameEngine.getCurrentTurnPlayer().getGamePieces().stream().filter(gameEngine::canMove).collect(Collectors.toList()));
+            rollResponse.setMovableGamePieces(gameEngine.getCurrentTurnPlayer().getGamePieces().stream().filter(gp -> GameUtil.canMove(getGame(), gp)).collect(Collectors.toList()));
         }
 
         return rollResponse;
@@ -81,7 +78,7 @@ public class UrRest {
         }
 
         for (GamePiece gamePiece : gameEngine.getCurrentTurnPlayer().getGamePieces()) {
-            if (gameEngine.canMove(gamePiece)) {
+            if (GameUtil.canMove(gameEngine.getGame(), gamePiece)) {
                 gameEngine.move(gamePiece);
                 return;
             }
