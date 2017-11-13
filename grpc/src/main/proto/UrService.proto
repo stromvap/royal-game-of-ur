@@ -1,0 +1,55 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package se.stromvap.royal.game.of.ur.grpc;
+import "google/protobuf/empty.proto";
+
+message Game {
+    Player player1 = 1;
+    Player player2 = 2;
+    Board board = 3;
+    Status status = 4;
+}
+
+message Player {
+    string id = 1;
+    string name = 2;
+    repeated GamePiece gamePiece = 3;
+}
+
+enum TileType {
+    UNKNOWN = 0;
+    NORMAL = 1;
+    SAFE = 2;
+    FLOWER = 3;
+    END = 4;
+}
+
+message GamePiece {
+    int32 id = 1;
+    Player player = 2;
+}
+
+message Tile {
+    int32 id = 1;
+    TileType tileType = 2;
+    GamePiece gamePiece = 3;
+}
+
+message TileList {
+    repeated Tile tile = 1;
+}
+
+message Board {
+    map<string, TileList> tiles = 1;
+}
+
+message Status {
+    Player currentTurnPlayer = 1;
+    int32 latestRoll = 2;
+    bool hasMoved = 3;
+}
+
+service UrService {
+    rpc move (GamePiece) returns (google.protobuf.Empty);
+    rpc join (Player) returns (stream Game);
+}
