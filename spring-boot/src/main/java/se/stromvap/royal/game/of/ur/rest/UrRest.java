@@ -1,7 +1,6 @@
 package se.stromvap.royal.game.of.ur.rest;
 
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import se.stromvap.royal.game.of.ur.GameEngine;
@@ -55,7 +54,7 @@ public class UrRest {
         return new MoveResponse(gameEngine.getCurrentTurnPlayer().getName());
     }
 
-    @PostMapping("/move/{gamePieceId}")
+    @RequestMapping("/move/{gamePieceId}")
     public MoveResponse move(@PathVariable("gamePieceId") int gamePieceId) {
         gameEngine.move(gamePieceId);
         return new MoveResponse(gameEngine.getCurrentTurnPlayer().getName());
