@@ -34,11 +34,11 @@ To make the game play itself out by rolling and moving random game pieces until 
 
 ## How to run the gRPC server and client
 
-### Server
+### gRPC Server
 
-Find `UrGrpcServer` and run it. Now the server has started on server `localhost:8081`
+Find `UrGrpcServer` and run it. Now the server has started on `localhost:8081`
 
-### Client
+### gRPC Client
 
 Download the code and run `mvn clean install`
 
@@ -62,23 +62,15 @@ UrGrpcClient.playRoyalGameOfUr("localhost", 8081, new RemoteAi() {
     }
 
     @Override
-    public GamePiece yourTurn(se.stromvap.royal.game.of.ur.model.Game game) {
-        List<se.stromvap.royal.game.of.ur.model.GamePiece> gamePieces = game.getStatus().getCurrentTurnPlayer().getGamePieces();
-        Collections.shuffle(gamePieces);
-        for (se.stromvap.royal.game.of.ur.model.GamePiece gamePiece : gamePieces) {
-            if (GameUtil.canMove(game, gamePiece)) {
-                return gamePiece;
-            }
-        }
-
-        throw new IllegalStateException("Should not get to here");
+    public GamePiece yourTurn(Game game) {
+        // Your AI code goes here
     }
 
     @Override
-    public void gameOver(se.stromvap.royal.game.of.ur.model.Player winner) {
+    public void gameOver(Player winner) {
 
     }
-    });
+});
 ```
 
 ## How to run AIs in Standalone mode
